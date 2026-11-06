@@ -2,7 +2,7 @@
 import { defineBlock } from '@bagelink/blox'
 import { Avatar, defineSchema, $ } from '@bagelink/vue'
 
-interface Item { title?: string; text?: string; icon?: string }
+interface Item { title?: string; text?: string; body?: string; icon?: string }
 interface Props { kicker?: string; title?: string; body?: string; items?: Item[] }
 
 const schema = defineSchema<Props>({
@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<Props>(), { items: () => [] })
 					<Avatar v-if="item.icon" :icon="item.icon" :size="44" />
 					<div>
 						<h3 class="txt-20 m-0">{{ item.title }}</h3>
-						<p class="line-height-15 quiet m-0 mt-05">{{ item.text }}</p>
+						<p class="line-height-15 quiet m-0 mt-05">{{ item.text ?? item.body }}</p>
 					</div>
 				</li>
 			</ul>

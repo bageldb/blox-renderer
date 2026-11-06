@@ -2,7 +2,7 @@
 import { defineBlock } from '@bagelink/blox'
 import { Btn, Icon, defineSchema, $ } from '@bagelink/vue'
 
-interface Step { title?: string; text?: string; icon?: string }
+interface Step { title?: string; text?: string; body?: string; icon?: string }
 interface Props { kicker?: string; title?: string; body?: string; items?: Step[]; cta_label?: string; cta_href?: string }
 
 const schema = defineSchema<Props>({
@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<Props>(), { items: () => [] })
 						<Icon v-if="step.icon" :name="step.icon" />
 					</div>
 					<h3 class="txt-20 m-0 mt-05">{{ step.title }}</h3>
-					<p class="line-height-15 quiet m-0 mt-05">{{ step.text }}</p>
+					<p class="line-height-15 quiet m-0 mt-05">{{ step.text ?? step.body }}</p>
 				</li>
 			</ol>
 			<Btn v-if="props.cta_label" class="mt-2" outline icon-end="arrow_forward" :value="props.cta_label" :href="props.cta_href || '/contact'" />

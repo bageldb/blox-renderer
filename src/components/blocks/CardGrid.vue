@@ -2,7 +2,7 @@
 import { defineBlock } from '@bagelink/blox'
 import { defineSchema, $ } from '@bagelink/vue'
 
-interface Card { title?: string; text?: string; image?: string; meta?: string; href?: string }
+interface Card { title?: string; text?: string; body?: string; image?: string; meta?: string; href?: string }
 interface Props { kicker?: string; title?: string; body?: string; items?: Card[] }
 
 const schema = defineSchema<Props>({
@@ -30,6 +30,8 @@ defineBlock({
 })
 
 const props = withDefaults(defineProps<Props>(), { items: () => [] })
+// The agent may write the item description as `body` instead of `text`.
+const desc = (item: Card) => item.text ?? item.body ?? ''
 </script>
 
 <template>
@@ -46,7 +48,7 @@ const props = withDefaults(defineProps<Props>(), { items: () => [] })
 						</div>
 						<p v-if="item.meta" class="txt12 quiet m-0 mt-075">{{ item.meta }}</p>
 						<h3 class="txt-20 m-0 mt-025">{{ item.title }}</h3>
-						<p v-if="item.text" class="txt14 quiet m-0 mt-025">{{ item.text }}</p>
+						<p v-if="desc(item)" class="txt14 quiet m-0 mt-025">{{ desc(item) }}</p>
 					</a>
 				</li>
 			</ul>
