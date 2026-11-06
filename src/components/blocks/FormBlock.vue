@@ -127,7 +127,7 @@ async function submit() {
 						<span>{{ field.title }}</span>
 					</label>
 					<SelectBtn v-else-if="field.kind === 'choice'" v-model="values[field.name]" :label="field.title" :options="field.options" />
-					<TextInput v-else v-model="values[field.name]" underlined :label="field.title" :type="field.kind === 'textarea' ? 'textarea' : field.kind" :required="field.required" />
+					<TextInput v-else v-model="values[field.name]" underlined :label="field.title" :type="field.kind === 'textarea' ? 'text' : field.kind" :multiline="field.kind === 'textarea'" :rows="field.kind === 'textarea' ? 4 : undefined" :required="field.required" />
 				</template>
 				<p v-if="error" class="m-0">{{ error }}</p>
 				<Btn type="submit" :value="props.submit_label" :disabled="sending" />
