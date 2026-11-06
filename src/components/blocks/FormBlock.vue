@@ -18,7 +18,7 @@ interface Props {
 	form_name?: string
 	submit_label?: string
 	success_message?: string
-	fields?: Field[]
+	fields?: any[]
 }
 
 const fieldSchema = defineSchema({
@@ -57,11 +57,41 @@ const props = withDefaults(defineProps<Props>(), {
 	success_message: 'Merci. Nous vous répondrons.',
 })
 
+// The agent writes fields as {name, label, type} or {name, title, kind}. Accept
+// both, and map `type` values ('text'|'textarea'|'email'|'phone'|'checkbox') onto
+// `kind`. A checkbox or `type: 'checkbox'` renders a Checkbox; a select renders
+// when options are present.
+function normalizeField(raw: any): Field {
+	const kindRaw = (raw.kind ?? raw.type ?? 'text').toLowerCase()
+	const hasOptions = Array.isArray(raw.options) && raw.options.length > 0
+	const kind: Field['kind'] = hasOptions
+		? 'choice'
+		: kindRaw === 'checkbox'
+			? 'checkbox'
+			: kindRaw === 'textarea'
+				? 'textarea'
+				: kindRaw === 'email'
+					? 'email'
+					: kindRaw === 'phone' || kindRaw === 'tel'
+						? 'phone'
+						: 'text'
+	return {
+		name: raw.name,
+		title: raw.title ?? raw.label ?? raw.name,
+		kind,
+		required: Boolean(raw.required),
+		options: (raw.options ?? []).map((o: any) => ({
+			label: o.label ?? o.title ?? String(o.value ?? o),
+			value: String(o.value ?? o),
+		})),
+	}
+}
+const fields = computed<Field[]>(() => (props.fields ?? []).map(normalizeField))
+
 const values = reactive<Record<string, string | boolean>>({})
 const done = ref(false)
 const error = ref('')
 const sending = ref(false)
-const fields = computed(() => props.fields ?? [])
 
 async function submit() {
 	if (!props.form_name || sending.value) return
