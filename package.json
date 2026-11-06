@@ -13,7 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bagelink/blox": "1.20.21",
+    "@bagelink/blox": "1.20.64",
     "@bagelink/vue": "1.20.9",
     "@bagelink/workspace": "1.20.17",
     "vue-router": "^5.4.0"

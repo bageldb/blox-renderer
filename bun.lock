@@ -5,7 +5,7 @@
     "": {
       "name": "@bageldb/blox-patrimo",
       "dependencies": {
-        "@bagelink/blox": "1.20.21",
+        "@bagelink/blox": "1.20.64",
         "@bagelink/vue": "1.20.9",
         "@bagelink/workspace": "1.20.17",
         "vue-router": "^5.4.0",
@@ -29,7 +29,7 @@
 
     "@babel/types": ["@babel/types@8.1.0", "", { "dependencies": { "@babel/helper-string-parser": "^8.0.8", "@babel/helper-validator-identifier": "^8.0.6" } }, "sha512-8V8aSTDx012YPmDQF30vrokyxVFdRAU2YBS2VzrnfLAGkP8floVnjckwgFcD0Jrvf6GWMSRdCrYVsk3tyMwZRg=="],
 
-    "@bagelink/blox": ["@bagelink/blox@1.20.21", "", { "dependencies": { "magic-string": "^0.30.21", "pinia": "^3.0.4" }, "peerDependencies": { "@bagelink/vue": "*", "happy-dom": ">=14.0.0", "vite": ">=5.0.0", "vue": "^3.3.0", "vue-router": "^4.0.0" }, "optionalPeers": ["happy-dom", "vite"], "bin": { "blox-ssg": "dist/ssg/cli.mjs" } }, "sha512-k0vPdeRVsSkHYIWIljBle9UtUEjGU6KIEOfJpRGFgopO3Hos54KktiPeUuXee+FY00l2ozshDkh5gJ2UGoDlpw=="],
+    "@bagelink/blox": ["@bagelink/blox@1.20.64", "", { "dependencies": { "magic-string": "^0.30.21", "pinia": "^3.0.4" }, "peerDependencies": { "@bagelink/vue": "*", "happy-dom": ">=14.0.0", "vite": ">=5.0.0", "vue": "^3.3.0", "vue-router": "^4.0.0" }, "optionalPeers": ["happy-dom", "vite"], "bin": { "blox-ssg": "dist/ssg/cli.mjs" } }, "sha512-tujf2z82iHGE6P5HC4g1xRH7XKJum4gYim+5E6th2Kx3doVUbUgBtxJux00R2fbzYMMQQsitsRipkxwYyO7t7w=="],
 
     "@bagelink/sdk": ["@bagelink/sdk@1.20.21", "", { "dependencies": { "axios": "^1.20.0" }, "peerDependencies": { "@typescript-eslint/typescript-estree": "^8.33.0", "type-fest": "^4", "vue": "^3.3.0" }, "bin": { "bagelink": "./bin/index.ts" } }, "sha512-+2ZIjOLZdcNkLD4BgKltDD9f0vc/uk2nelDcrLKUPA11EsURrcKQEL9ekx6rrH4w1TI59YtbwYyvqFvR2y9Shg=="],
 
