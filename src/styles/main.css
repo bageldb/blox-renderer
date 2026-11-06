@@ -1,0 +1,104 @@
+:root {
+	--bgl-primary: #1c1917;
+	--bgl-bg: #faf9f6;
+	--bgl-font-color: #1c1917;
+	--bgl-muted: #6b6560;
+	--bgl-border-color: rgba(243, 236, 226, 0.14);
+	--bgl-font-display: 'Fraunces', Georgia, serif;
+	--bgl-font: 'Hanken Grotesk', system-ui, sans-serif;
+	--bgl-font-size: 17px;
+	--bgl-btn-border-radius: 999px;
+	--bgl-input-border-radius: 12px;
+	--bgl-card-border-radius: 20px;
+	--bgl-btn-bg: #d95f2b;
+	--bgl-btn-color: #161310;
+}
+
+body {
+	margin: 0;
+	background: var(--bgl-bg);
+	color: var(--bgl-font-color);
+	font-family: var(--bgl-font);
+	-webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+.sans { font-family: var(--bgl-font); }
+
+.display {
+	font-size: clamp(2.8rem, 5vw, 4.6rem);
+	line-height: 0.94;
+	letter-spacing: -0.028em;
+	font-weight: 460;
+}
+
+.seal-line { height: 3px; background: var(--bgl-primary); }
+
+.nav-sticky {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	background: color-mix(in srgb, var(--bgl-bg) 88%, transparent);
+	backdrop-filter: blur(12px);
+}
+
+.desk-nav { display: flex; }
+.mob-toggle { display: none; }
+.bare { list-style: none; padding: 0; margin: 0; }
+.quiet { color: var(--bgl-muted); }
+.measure { max-width: 40rem; }
+
+a.bgl_btn {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.95rem 1.6rem;
+	background: var(--bgl-primary);
+	color: var(--bgl-bg);
+	border-radius: 999px;
+	text-decoration: none;
+	font-weight: 500;
+	transition: background 0.18s ease;
+}
+a.bgl_btn:hover { background: #ec7a47; }
+a.bgl_flatPill {
+	background: transparent;
+	color: inherit;
+	border: 1px solid var(--bgl-border-color);
+}
+
+.frame {
+	overflow: hidden;
+	background: #241d18;
+	border-radius: 20px;
+	aspect-ratio: 1;
+}
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-frame { aspect-ratio: 4 / 5; border-radius: 26px; }
+
+.stone { min-height: 82vh; display: grid; align-items: center; }
+.stone > figure img { border-radius: 26px; display: block; }
+
+.panel {
+	background: #201a16;
+	border: 1px solid var(--bgl-border-color);
+	border-radius: 20px;
+	padding: 1.6rem;
+}
+
+.band { background: #2a2119; }
+.band-deep { background: var(--bgl-primary); color: #161310; }
+
+.card-link { display: block; text-decoration: none; transition: transform 0.18s ease; }
+.card-link:hover { transform: translateY(-3px); }
+
+.pre { white-space: pre-line; }
+img.photo { width: 100%; height: auto; display: block; }
+
+@media (max-width: 910px) {
+	.desk-nav { display: none; }
+	.mob-toggle { display: inline-flex; }
+	.stone { min-height: 0; }
+}
+
+.hero-overlay { background-size: cover; background-position: center; }

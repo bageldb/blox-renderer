@@ -1,0 +1,10 @@
+[build]
+  command = "bash scripts/netlify-build.sh"
+  publish = "dist"
+
+[build.environment]
+  BUN_VERSION = "1.3.14"
+
+# Per-site /api proxy and the designer preview route are generated into
+# dist/_redirects by scripts/netlify-build.sh from BLOX_API_URL, so this repo
+# stays shared across projects.

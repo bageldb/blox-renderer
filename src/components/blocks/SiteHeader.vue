@@ -1,0 +1,79 @@
+<script setup lang="ts">
+import { computed, h, ref } from 'vue'
+import { defineBlock, useGlobalBlock } from '@bagelink/blox'
+import { Btn, Icon, defineSchema, $ } from '@bagelink/vue'
+
+interface Link { label: string; to: string }
+interface Content { brand?: string; links?: Link[] }
+interface Theme { accent?: string; bg?: string; ink?: string; muted?: string; font_display?: string; font_body?: string; radius?: string }
+
+const schema = defineSchema({
+	brand: $.text('Marque'),
+	links: $.array('Liens', defineSchema({
+		label: $.text('Libellé'),
+		to: $.text('Lien'),
+	}), { collapsible: true, allowReorder: true }),
+})
+
+defineBlock({
+	name: 'SiteHeader',
+	label: 'En-tête',
+	icon: 'menu',
+	category: 'layout',
+	description: 'Navigation du site, partagée par toutes les pages.',
+	schema,
+	defaults: { brand: '', links: [] },
+	global: true,
+})
+
+const fallback: Content = {
+	brand: '',
+	links: [],
+}
+const { data } = useGlobalBlock<Content>('SiteHeader')
+const { data: themeData } = useGlobalBlock<Theme>('SiteTheme')
+const open = ref(false)
+
+// Emit the site theme as CSS variables on :root. The header is a chrome block
+// rendered inside the page contexts provider, so useGlobalBlock resolves here.
+const themeCss = computed(() => {
+	const t = themeData.value || {}
+	const vars: Record<string, string> = {
+		'--bgl-primary': t.accent || '#d95f2b',
+		'--bgl-bg': t.bg || '#161310',
+		'--bgl-font-color': t.ink || '#f3ece2',
+		'--bgl-muted': t.muted || '#a89c8e',
+		'--bgl-font-display': t.font_display || "'Fraunces', Georgia, serif",
+		'--bgl-font': t.font_body || "'Hanken Grotesk', system-ui, sans-serif",
+		'--bgl-card-border-radius': t.radius || '20px',
+		'--bgl-btn-border-radius': t.radius || '20px',
+		'--bgl-input-border-radius': t.radius || '12px',
+	}
+	return ':root{' + Object.entries(vars).map(([k, v]) => `${k}:${v};`).join('') + '}'
+})
+
+const ThemeStyle = () => h('style', themeCss.value)
+</script>
+
+<template>
+	<ThemeStyle />
+	<div class="nav-sticky">
+		<header>
+			<div class="w-1100px mx-auto px-2 m_px-1 h-60px flex align-items-center space-between gap-2">
+				<router-link to="/" class="txt-22 decoration-none flex align-items-center" style="letter-spacing: -0.03em">
+					<span>{{ data?.brand || fallback.brand }}</span>
+				</router-link>
+				<nav class="desk-nav gap-1-5 align-items-center" aria-label="Pages">
+					<router-link v-for="link in data?.links?.length ? data.links : fallback.links" :key="link.to" :to="link.to" class="txt14 decoration-none">{{ link.label }}</router-link>
+				</nav>
+				<Btn class="mob-toggle" flat icon="menu" aria-label="Open menu" @click="open = !open" />
+			</div>
+			<nav v-if="open" class="px-2 py-1 border-top m_px-1" aria-label="Pages">
+				<router-link v-for="link in data?.links?.length ? data.links : fallback.links" :key="link.to" :to="link.to" class="flex space-between align-items-center py-075 decoration-none border-bottom" @click="open = false">
+					<span>{{ link.label }}</span>
+					<Icon name="arrow_forward" class="opacity-4" />
+				</router-link>
+			</nav>
+		</header>
+	</div>
+</template>

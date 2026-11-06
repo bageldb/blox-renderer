@@ -1,0 +1,29 @@
+{
+  "name": "@bageldb/blox-renderer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && bun run build:prerender && bun run ssg && bun run assert:output",
+    "build:prerender": "vite build --ssr",
+    "ssg": "blox-ssg /",
+    "ssg:dev": "blox-ssg --mode=development",
+    "ssg:local": "blox-ssg --mode=localhost",
+    "assert:output": "test -f dist/index.html && test -f dist/.blox-manifest.json",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@bagelink/blox": "1.20.21",
+    "@bagelink/vue": "1.20.9",
+    "@bagelink/workspace": "1.20.17",
+    "vue-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@vitejs/plugin-vue": "^6",
+    "esbuild": "^0.28.2",
+    "happy-dom": "latest",
+    "vite": "^8",
+    "vue": "3.5.44"
+  }
+}
