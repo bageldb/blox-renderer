@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { defineBlock, useGlobalBlock } from '@bagelink/blox'
 import { defineSchema, $ } from '@bagelink/vue'
 
 interface Link { label: string; to: string }
-interface Column { title?: string; links?: Link[] }
+interface Column { title?: string; links?: Link[]; items?: any[] }
 interface Content { brand?: string; note?: string; columns?: Column[] }
 
 const schema = defineSchema({
@@ -35,6 +36,21 @@ const fallback: Content = {
 		{ title: 'Contact', links: [] },
 	],
 }
+
+function normalizeLink(l: any): Link {
+	if (!l) return { label: '', to: '' }
+	return { label: l.label ?? l.title ?? '', to: l.to ?? l.href ?? '#' }
+}
+function normalizeColumns(cols: any[] | undefined): Column[] {
+	return (cols ?? []).map((c) => ({
+		title: c?.title ?? '',
+		links: ((c?.links ?? c?.items) || []).map(normalizeLink).filter((l: Link) => l.label),
+	}))
+}
+const columns = computed(() => {
+	const cols = normalizeColumns(data.value?.columns)
+	return cols.length ? cols : fallback.columns
+})
 </script>
 
 <template>
@@ -44,7 +60,7 @@ const fallback: Content = {
 				<p class="txt-28 m-0" style="letter-spacing: -0.03em">{{ data?.brand || fallback.brand }}</p>
 				<p class="txt13 quiet m-0 measure">{{ data?.note || fallback.note }}</p>
 			</div>
-			<div v-for="column in data?.columns?.length ? data.columns : fallback.columns" :key="column.title" class="grid gap-05 align-content-start">
+			<div v-for="column in columns" :key="column.title" class="grid gap-05 align-content-start">
 				<span class="txt12 uppercase tracking-wider semi">{{ column.title }}</span>
 				<router-link v-for="link in column.links || []" :key="link.to" :to="link.to" class="txt14 quiet decoration-none">{{ link.label }}</router-link>
 			</div>

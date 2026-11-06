@@ -4,7 +4,14 @@ import { defineBlock, useGlobalBlock } from '@bagelink/blox'
 import { Btn, Icon, defineSchema, $ } from '@bagelink/vue'
 
 interface Link { label: string; to: string }
-interface Content { brand?: string; links?: Link[] }
+interface Content { brand?: string; links?: any[] }
+
+// Accept both {label,to} and {title,href} link shapes the agent may emit.
+function normalizeLink(l: any): Link {
+	if (!l) return { label: '', to: '' }
+	return { label: l.label ?? l.title ?? '', to: l.to ?? l.href ?? '#' }
+}
+const links = computed(() => (data.value?.links ?? []).map(normalizeLink).filter((l) => l.label))
 interface Theme { accent?: string; bg?: string; ink?: string; muted?: string; font_display?: string; font_body?: string; radius?: string }
 
 const schema = defineSchema({
@@ -64,12 +71,12 @@ const ThemeStyle = () => h('style', themeCss.value)
 					<span>{{ data?.brand || fallback.brand }}</span>
 				</router-link>
 				<nav class="desk-nav gap-1-5 align-items-center" aria-label="Pages">
-					<router-link v-for="link in data?.links?.length ? data.links : fallback.links" :key="link.to" :to="link.to" class="txt14 decoration-none">{{ link.label }}</router-link>
+					<router-link v-for="link in links" :key="link.to" :to="link.to" class="txt14 decoration-none">{{ link.label }}</router-link>
 				</nav>
 				<Btn class="mob-toggle" flat icon="menu" aria-label="Open menu" @click="open = !open" />
 			</div>
 			<nav v-if="open" class="px-2 py-1 border-top m_px-1" aria-label="Pages">
-				<router-link v-for="link in data?.links?.length ? data.links : fallback.links" :key="link.to" :to="link.to" class="flex space-between align-items-center py-075 decoration-none border-bottom" @click="open = false">
+				<router-link v-for="link in links" :key="link.to" :to="link.to" class="flex space-between align-items-center py-075 decoration-none border-bottom" @click="open = false">
 					<span>{{ link.label }}</span>
 					<Icon name="arrow_forward" class="opacity-4" />
 				</router-link>
