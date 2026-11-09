@@ -12,6 +12,11 @@ interface Props {
 	font_display?: string
 	font_body?: string
 	radius?: string
+	gradient?: string
+	highlight?: string
+	btn?: string
+	btn_ink?: string
+	header?: string
 }
 
 const schema = defineSchema<Props>({
@@ -24,6 +29,11 @@ const schema = defineSchema<Props>({
 	font_display: $.text('Display font'),
 	font_body: $.text('Body font'),
 	radius: $.text('Radius'),
+	gradient: $.text('Gradient'),
+	highlight: $.text('Highlight'),
+	btn: $.text('Button'),
+	btn_ink: $.text('Button text'),
+	header: $.text('Header (overlay|solid)'),
 })
 
 defineBlock({

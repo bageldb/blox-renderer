@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, ref } from 'vue'
+import { computed, h, onMounted, onUnmounted, ref } from 'vue'
 import { defineBlock, useGlobalBlock } from '@bagelink/blox'
 import { Btn, Icon, defineSchema, $ } from '@bagelink/vue'
 
@@ -12,7 +12,8 @@ function normalizeLink(l: any): Link {
 	return { label: l.label ?? l.title ?? '', to: l.to ?? l.href ?? '#' }
 }
 const links = computed(() => (data.value?.links ?? []).map(normalizeLink).filter((l) => l.label))
-interface Theme { accent?: string; bg?: string; ink?: string; muted?: string; surface?: string; surface_ink?: string; font_display?: string; font_body?: string; radius?: string }
+interface Theme { accent?: string; bg?: string; ink?: string; muted?: string; surface?: string; surface_ink?: string; font_display?: string; font_body?: string; radius?: string; gradient?: string; highlight?: string; btn?: string; btn_ink?: string; header?: string }
+interface HeaderContent extends Content { cta_label?: string; cta_href?: string }
 
 const schema = defineSchema({
 	brand: $.text('Marque'),
@@ -20,6 +21,8 @@ const schema = defineSchema({
 		label: $.text('Libellé'),
 		to: $.text('Lien'),
 	}), { collapsible: true, allowReorder: true }),
+	cta_label: $.text('Bouton'),
+	cta_href: $.text('Lien du bouton'),
 })
 
 defineBlock({
@@ -37,9 +40,17 @@ const fallback: Content = {
 	brand: '',
 	links: [],
 }
-const { data } = useGlobalBlock<Content>('SiteHeader')
+const { data } = useGlobalBlock<HeaderContent>('SiteHeader')
 const { data: themeData } = useGlobalBlock<Theme>('SiteTheme')
 const open = ref(false)
+const scrolled = ref(false)
+let onScroll: (() => void) | null = null
+onMounted(() => {
+	onScroll = () => { scrolled.value = window.scrollY > 24 }
+	onScroll()
+	window.addEventListener('scroll', onScroll, { passive: true })
+})
+onUnmounted(() => { if (onScroll) window.removeEventListener('scroll', onScroll) })
 
 // Emit the site theme as CSS variables on :root. The header is a chrome block
 // rendered inside the page contexts provider, so useGlobalBlock resolves here.
@@ -57,6 +68,10 @@ const themeCss = computed(() => {
 		'--bgl-card-border-radius': t.radius || '20px',
 		'--bgl-btn-border-radius': t.radius || '20px',
 		'--bgl-input-border-radius': t.radius || '12px',
+		'--bgl-btn-bg': t.btn || t.accent || '#1c1917',
+		'--bgl-btn-color': t.btn_ink || '#ffffff',
+		'--bgl-highlight': t.highlight || t.accent || '#d95f2b',
+		'--bgl-gradient': t.gradient || 'none',
 	}
 	return ':root{' + Object.entries(vars).map(([k, v]) => `${k}:${v};`).join('') + '}'
 })
@@ -66,7 +81,7 @@ const ThemeStyle = () => h('style', themeCss.value)
 
 <template>
 	<ThemeStyle />
-	<div class="nav-sticky">
+	<div :class="['nav-sticky', scrolled ? 'nav-scrolled' : '']">
 		<header>
 			<div class="w-1100px mx-auto px-2 m_px-1 h-60px flex align-items-center space-between gap-2">
 				<router-link to="/" class="txt-22 decoration-none flex align-items-center" style="letter-spacing: -0.03em">
@@ -74,6 +89,7 @@ const ThemeStyle = () => h('style', themeCss.value)
 				</router-link>
 				<nav class="desk-nav gap-1-5 align-items-center" aria-label="Pages">
 					<router-link v-for="link in links" :key="link.to" :to="link.to" class="txt14 decoration-none">{{ link.label }}</router-link>
+					<Btn v-if="data?.cta_label" size="sm" :value="data.cta_label" :href="data.cta_href || '/'" />
 				</nav>
 				<Btn class="mob-toggle" flat icon="menu" aria-label="Open menu" @click="open = !open" />
 			</div>

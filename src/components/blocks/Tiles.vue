@@ -1,0 +1,63 @@
+<script setup lang="ts">
+import { defineBlock } from '@bagelink/blox'
+import { Icon, defineSchema, $ } from '@bagelink/vue'
+
+interface Item { title?: string; text?: string; icon?: string; tone?: string; href?: string }
+interface Props { kicker?: string; title?: string; body?: string; columns?: string; items?: Item[] }
+
+const schema = defineSchema<Props>({
+	kicker: $.text('Kicker'),
+	title: $.text('Titre'),
+	body: $.textarea('Texte'),
+	columns: $.text('Colonnes (3|4)'),
+	items: $.array('Tuiles', defineSchema({
+		title: $.text('Titre'),
+		text: $.textarea('Texte'),
+		icon: $.text('Icône'),
+		tone: $.text('Ton'),
+		href: $.text('Lien'),
+	}), { collapsible: true, allowReorder: true }),
+})
+
+defineBlock({
+	name: 'Tiles',
+	label: 'Mosaïque',
+	icon: 'grid_view',
+	category: 'content',
+	order: 22,
+	description: 'Tuiles produit colorées, chacune avec son ton.',
+	schema,
+	defaults: { columns: '3', items: [] },
+})
+
+const props = withDefaults(defineProps<Props>(), { columns: '3', items: () => [] })
+const tones = new Set(['violet', 'blue', 'cyan', 'orange', 'green', 'yellow', 'ink', 'pink', 'paper'])
+
+function tone(item: Item): string {
+	const t = (item.tone || 'paper').toLowerCase()
+	return tones.has(t) ? t : 'paper'
+}
+</script>
+
+<template>
+	<section class="px-2 m_px-1 py-4">
+		<div class="w-1100px mx-auto">
+			<p v-if="props.kicker" class="txt12 uppercase tracking-wider quiet m-0 mb-1">{{ props.kicker }}</p>
+			<h2 v-if="props.title" class="txt-36 line-height-11 m-0">{{ props.title }}</h2>
+			<p v-if="props.body" class="line-height-15 measure m-0 mt-1">{{ props.body }}</p>
+			<div :class="['tile-grid mt-3', props.columns === '4' ? 'tile-grid-4' : '']">
+				<component
+					:is="item.href ? 'router-link' : 'div'"
+					v-for="(item, i) in props.items"
+					:key="i"
+					:to="item.href || undefined"
+					:class="['tile', `tile-${tone(item)}`, item.href ? 'decoration-none' : '']"
+				>
+					<span v-if="item.icon" class="tile-icon"><Icon :name="item.icon" :size="1.25" /></span>
+					<h3 class="txt-20 m-0">{{ item.title }}</h3>
+					<p v-if="item.text" class="txt14 line-height-15 m-0 mt-05">{{ item.text }}</p>
+				</component>
+			</div>
+		</div>
+	</section>
+</template>
