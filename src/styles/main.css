@@ -299,6 +299,11 @@ body:has(.stage-light) .nav-sticky:not(.nav-scrolled) {
   backdrop-filter: none;
 }
 body:has(.stage-light) .nav-sticky:not(.nav-scrolled) a { color: #fff; }
+body:has(.stage-poster) .nav-sticky:not(.nav-scrolled) .pair-default {
+  background: #fff;
+  color: #143000;
+  border-color: #fff;
+}
 .stage-angle .stage-ground {
   background: var(--bgl-gradient);
   clip-path: polygon(0 0, 100% 0, 100% 86%, 0 100%);
