@@ -7,6 +7,8 @@ interface Props {
 	bg?: string
 	ink?: string
 	muted?: string
+	surface?: string
+	surface_ink?: string
 	font_display?: string
 	font_body?: string
 	radius?: string
@@ -17,6 +19,8 @@ const schema = defineSchema<Props>({
 	bg: $.text('Ground'),
 	ink: $.text('Ink'),
 	muted: $.text('Muted'),
+	surface: $.text('Contrast surface'),
+	surface_ink: $.text('Contrast surface text'),
 	font_display: $.text('Display font'),
 	font_body: $.text('Body font'),
 	radius: $.text('Radius'),

@@ -80,16 +80,16 @@ a.bgl_flatPill {
 .stone > figure img { border-radius: 26px; display: block; }
 
 .panel {
-	background: #201a16;
+	background: var(--bgl-surface, #201a16);
 	border: 1px solid var(--bgl-border-color);
 	border-radius: 20px;
 	padding: 1.6rem;
-	color: #f4ede2;
+	color: var(--bgl-surface-ink, #f4ede2);
 }
-.panel .quiet { color: #b7ab9b; }
+.panel .quiet { color: color-mix(in srgb, var(--bgl-surface-ink, #f4ede2) 62%, transparent); }
 
-.band { background: #2a2119; color: #f4ede2; }
-.band .quiet { color: #c6baa6; }
+.band { background: var(--bgl-surface, #2a2119); color: var(--bgl-surface-ink, #f4ede2); }
+.band .quiet { color: color-mix(in srgb, var(--bgl-surface-ink, #f4ede2) 70%, transparent); }
 .band-deep { background: var(--bgl-primary); color: #161310; }
 
 .card-link { display: block; text-decoration: none; transition: transform 0.18s ease; }

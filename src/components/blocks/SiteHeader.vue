@@ -12,7 +12,7 @@ function normalizeLink(l: any): Link {
 	return { label: l.label ?? l.title ?? '', to: l.to ?? l.href ?? '#' }
 }
 const links = computed(() => (data.value?.links ?? []).map(normalizeLink).filter((l) => l.label))
-interface Theme { accent?: string; bg?: string; ink?: string; muted?: string; font_display?: string; font_body?: string; radius?: string }
+interface Theme { accent?: string; bg?: string; ink?: string; muted?: string; surface?: string; surface_ink?: string; font_display?: string; font_body?: string; radius?: string }
 
 const schema = defineSchema({
 	brand: $.text('Marque'),
@@ -52,6 +52,8 @@ const themeCss = computed(() => {
 		'--bgl-muted': t.muted || '#a89c8e',
 		'--bgl-font-display': t.font_display || "'Fraunces', Georgia, serif",
 		'--bgl-font': t.font_body || "'Hanken Grotesk', system-ui, sans-serif",
+		'--bgl-surface': t.surface || '#201a16',
+		'--bgl-surface-ink': t.surface_ink || '#f4ede2',
 		'--bgl-card-border-radius': t.radius || '20px',
 		'--bgl-btn-border-radius': t.radius || '20px',
 		'--bgl-input-border-radius': t.radius || '12px',

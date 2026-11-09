@@ -16,7 +16,7 @@ const blocks = import.meta.glob('./components/blocks/*.vue', { eager: true })
 
 const websiteName = process.env.BLOX_WEBSITE_NAME ?? process.env.WEBSITE_NAME ?? 'blox'
 
-export const { render } = createBloxSSREntry({
+export const { render, prefetchResolve, configureBuildData } = createBloxSSREntry({
 	rootComponent: App,
 	createRouter,
 	modules: blocks as Record<string, any>,
