@@ -90,7 +90,37 @@ a.bgl_flatPill {
 
 .band { background: var(--bgl-surface, #2a2119); color: var(--bgl-surface-ink, #f4ede2); }
 .band .quiet { color: color-mix(in srgb, var(--bgl-surface-ink, #f4ede2) 70%, transparent); }
-.band-deep { background: var(--bgl-primary); color: #161310; }
+.band-deep { background: var(--bgl-primary); color: var(--bgl-btn-color, #fff); }
+.band-deep .quiet { color: color-mix(in srgb, var(--bgl-btn-color, #fff) 75%, transparent); }
+
+/* Marquee */
+.marquee { overflow: hidden; padding-block: 0.85rem; border-block: 1px solid var(--bgl-border-color); }
+.marquee-track { display: flex; gap: 2.5rem; white-space: nowrap; width: max-content; animation: marquee-scroll linear infinite; }
+.marquee-item { display: inline-flex; align-items: center; gap: 2.5rem; font-family: var(--bgl-font-display); font-size: 1.4rem; letter-spacing: -0.01em; }
+.marquee-dot { opacity: 0.4; }
+@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Bento */
+.bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.bento-cell { grid-column: span 1; }
+.bento-wide { grid-column: span 2; }
+.bento-tall { grid-row: span 2; }
+@media (max-width: 910px) {
+	.bento-grid { grid-template-columns: repeat(2, 1fr); }
+	.bento-wide, .bento-tall { grid-column: span 2; }
+}
+
+/* Timeline */
+.timeline-row { position: relative; padding-inline-start: 1.5rem; padding-bottom: 1.5rem; border-inline-start: 1px solid var(--bgl-border-color); }
+.timeline-row:last-child { padding-bottom: 0; border-inline-start-color: transparent; }
+.timeline-mark { position: absolute; inset-inline-start: -5px; top: 0.15rem; width: 9px; height: 9px; border-radius: 50%; background: var(--bgl-primary); }
+
+/* Pricing */
+.pricing-featured { border: 2px solid var(--bgl-primary); }
+
+/* FeatureSplit flip */
+.flip { direction: rtl; }
+.flip > * { direction: ltr; }
 
 .card-link { display: block; text-decoration: none; transition: transform 0.18s ease; }
 .card-link:hover { transform: translateY(-3px); }
