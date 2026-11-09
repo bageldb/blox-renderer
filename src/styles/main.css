@@ -84,9 +84,12 @@ a.bgl_flatPill {
 	border: 1px solid var(--bgl-border-color);
 	border-radius: 20px;
 	padding: 1.6rem;
+	color: #f4ede2;
 }
+.panel .quiet { color: #b7ab9b; }
 
-.band { background: #2a2119; }
+.band { background: #2a2119; color: #f4ede2; }
+.band .quiet { color: #c6baa6; }
 .band-deep { background: var(--bgl-primary); color: #161310; }
 
 .card-link { display: block; text-decoration: none; transition: transform 0.18s ease; }
