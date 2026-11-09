@@ -16,7 +16,11 @@ const schema = defineSchema<Props>({
 		title: $.text('Title'),
 		text: $.textarea('Text'),
 		image: imageField(),
-		span: $.text('Size (1|2|wide)'),
+		span: $.select('Size', [
+			{ label: '1', value: '1' },
+			{ label: 'Wide', value: 'wide' },
+			{ label: 'Tall', value: 'lg' },
+		], { default: '1', display: 'btn' }),
 	}), { collapsible: true, allowReorder: true }),
 })
 
