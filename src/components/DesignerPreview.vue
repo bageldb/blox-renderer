@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import type { Block } from '@bagelink/blox'
 import {
-	applyLayoutChrome,
-	BLOX_LAYOUT_KEY,
 	BLOX_RUNTIME_KEY,
 	resolveBlockProps,
 	sendToEditor,
 	useLocale,
 } from '@bagelink/blox'
-import { inject, nextTick, onMounted, onUnmounted, provide, ref } from 'vue'
+import { nextTick, onMounted, onUnmounted, provide, ref } from 'vue'
 
 interface BlockMeta {
 	name?: string
@@ -57,12 +55,10 @@ function buildRegistry() {
 }
 
 const registry = buildRegistry()
-const layout = inject(BLOX_LAYOUT_KEY, null)
 const { setLocale } = useLocale()
 
 const blocks = ref<Block[]>([])
 const contexts = ref<Record<string, Record<string, unknown> | null>>({})
-const pagePath = ref('/')
 const selectedIndex = ref<number | null>(null)
 const hoveredIndex = ref<number | null>(null)
 const globalBlockTypes = ref<string[]>([])
@@ -76,21 +72,13 @@ const REGULAR = { solid: '#6366f1', rgb: '99, 102, 241' }
 const GLOBAL = { solid: '#f59e0b', rgb: '245, 158, 11' }
 
 function rendered() {
-	const source = blocks.value
-	const laidOut = layout?.ensureChrome
-		? applyLayoutChrome(source, pagePath.value || '/', layout)
-		: source
-	const indexOf = new Map(source.map((block, index) => [block, index]))
-	return laidOut.map(block => ({ block, index: indexOf.get(block) ?? null }))
+	return blocks.value.map((block, index) => ({ block, index }))
 }
 
 function readyPayload() {
 	return {
 		type: 'BLOX_READY' as const,
 		registry: Object.fromEntries(Object.entries(registry).map(([key, def]) => [key, def.schema])),
-		chrome: layout
-			? { nav: layout.navType ?? 'TopNav', footer: layout.footerType ?? 'Footer' }
-			: undefined,
 	}
 }
 
@@ -101,7 +89,6 @@ function onMessage(event: MessageEvent) {
 		case 'BLOX_INIT':
 			blocks.value = msg.page?.page?.content?.blocks ?? []
 			contexts.value = msg.page?.contexts ?? {}
-			pagePath.value = msg.page?.page?.slug || '/'
 			setLocale(msg.locale)
 			runtimeLoading.value = false
 			break
@@ -193,7 +180,7 @@ onUnmounted(() => {
 				<div
 					v-if="registry[item.block.type]"
 					class="blox-preview-block"
-					:class="{ 'is-nav': item.block.type === layout?.navType }"
+					:class="{ 'is-nav': item.block.type === 'SiteHeader' }"
 					:data-blox-index="item.index"
 					:style="{
 						'--blox-rgb': globalBlockTypes.includes(item.block.type) ? GLOBAL.rgb : REGULAR.rgb,

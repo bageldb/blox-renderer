@@ -52,8 +52,8 @@ onMounted(() => {
 })
 onUnmounted(() => { if (onScroll) window.removeEventListener('scroll', onScroll) })
 
-// Emit the site theme as CSS variables on :root. The header is a chrome block
-// rendered inside the page contexts provider, so useGlobalBlock resolves here.
+// Emit the site theme as CSS variables on :root. This runs only when the page
+// actually includes the header block.
 const themeCss = computed(() => {
 	const t = themeData.value || {}
 	const vars: Record<string, string> = {
