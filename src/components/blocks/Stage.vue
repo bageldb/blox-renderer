@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { defineBlock } from '@bagelink/blox'
 import { Btn, Icon, defineSchema, $ } from '@bagelink/vue'
+import { imageField, mediaUrl } from '@/media'
 
 interface Metric { label?: string; value?: string; delta?: string }
 interface Chip { text?: string }
@@ -15,7 +16,7 @@ interface Props {
 	cta_href?: string
 	cta2_label?: string
 	cta2_href?: string
-	image?: string
+	image?: unknown
 	image_alt?: string
 	visual?: string
 	chips?: any[]
@@ -23,33 +24,33 @@ interface Props {
 }
 
 const schema = defineSchema<Props>({
-	treatment: $.text('Traitement (angle|mesh|poster|split|editorial)'),
-	tone: $.text('Ton du texte (light|ink)'),
+	treatment: $.text('Treatment (angle|mesh|poster|split|editorial)'),
+	tone: $.text('Text tone (light|ink)'),
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	body: $.textarea('Texte'),
-	cta_label: $.text('Bouton'),
-	cta_href: $.text('Lien du bouton'),
-	cta2_label: $.text('Bouton secondaire'),
-	cta2_href: $.text('Lien secondaire'),
-	image: $.text('Image'),
-	image_alt: $.text('Texte alt'),
-	visual: $.text('Visuel (dashboard|image|none)'),
-	chips: $.array('Puces', defineSchema({ text: $.text('Texte') }), { collapsible: true, allowReorder: true }),
-	metrics: $.array('Mesures', defineSchema({
-		label: $.text('Libellé'),
-		value: $.text('Valeur'),
-		delta: $.text('Variation'),
+	title: $.text('Title'),
+	body: $.textarea('Text'),
+	cta_label: $.text('Button'),
+	cta_href: $.text('Button link'),
+	cta2_label: $.text('Secondary button'),
+	cta2_href: $.text('Secondary link'),
+	image: imageField(),
+	image_alt: $.text('Alt text'),
+	visual: $.text('Visual (dashboard|image|none)'),
+	chips: $.array('Chips', defineSchema({ text: $.text('Text') }), { collapsible: true, allowReorder: true }),
+	metrics: $.array('Metrics', defineSchema({
+		label: $.text('Label'),
+		value: $.text('Value'),
+		delta: $.text('Change'),
 	}), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'Stage',
-	label: 'Scène',
+	label: 'Stage',
 	icon: 'slideshow',
 	category: 'hero',
 	order: 9,
-	description: 'Ouverture de marque : dégradé incliné, halo, affiche, ou éditorial.',
+	description: 'Brand opening: angled gradient, glow, poster, or editorial.',
 	schema,
 	defaults: { treatment: 'angle', visual: 'none' },
 })
@@ -121,14 +122,14 @@ const metricList = computed(() => (props.metrics || []).filter((m) => m?.value))
 						<span v-for="chip in chipList" :key="chip" class="stage-chip">{{ chip }}</span>
 					</div>
 				</div>
-				<div v-if="(treatment === 'split' || treatment === 'poster') && props.image" :class="treatment === 'poster' ? 'stage-mascot' : 'frame stage-split-frame'">
-					<img :src="props.image" :alt="props.image_alt || ''" />
+				<div v-if="(treatment === 'split' || treatment === 'poster') && mediaUrl(props.image)" :class="treatment === 'poster' ? 'stage-mascot' : 'frame stage-split-frame'">
+					<img :src="mediaUrl(props.image)" :alt="props.image_alt || ''" />
 				</div>
 			</div>
 		</div>
 
-		<figure v-if="treatment === 'editorial' && props.image" class="stage-film">
-			<img :src="props.image" :alt="props.image_alt || ''" />
+		<figure v-if="treatment === 'editorial' && mediaUrl(props.image)" class="stage-film">
+			<img :src="mediaUrl(props.image)" :alt="props.image_alt || ''" />
 			<figcaption v-if="props.image_alt">{{ props.image_alt }}</figcaption>
 		</figure>
 

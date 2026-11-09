@@ -8,17 +8,17 @@ interface Props {
 }
 
 const schema = defineSchema<Props>({
-	items: $.array('Phrases', defineSchema({ text: $.text('Texte') }), { collapsible: true, allowReorder: true }),
-	speed: $.text('Durée (s)', { default: '24' }),
+	items: $.array('Phrases', defineSchema({ text: $.text('Text') }), { collapsible: true, allowReorder: true }),
+	speed: $.text('Duration (s)', { default: '24' }),
 })
 
 defineBlock({
 	name: 'Marquee',
-	label: 'Bande défilante',
+	label: 'Marquee',
 	icon: 'more_horiz',
 	category: 'content',
 	order: 16,
-	description: 'Une bande de texte qui défile en boucle.',
+	description: 'A looping strip of text.',
 	schema,
 	defaults: { items: [], speed: '24' },
 })

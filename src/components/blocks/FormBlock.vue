@@ -22,39 +22,39 @@ interface Props {
 }
 
 const fieldSchema = defineSchema({
-	name: $.text('Champ'),
-	title: $.text('Libellé'),
+	name: $.text('Field'),
+	title: $.text('Label'),
 	kind: $.text('Type'),
-	required: $.text('Requis'),
+	required: $.text('Required'),
 	options: $.array('Options', defineSchema({
-		label: $.text('Libellé'),
-		value: $.text('Valeur'),
+		label: $.text('Label'),
+		value: $.text('Value'),
 	})),
 })
 
 const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	body: $.textarea('Texte'),
-	form_name: $.text('Définition de formulaire'),
-	submit_label: $.text('Bouton'),
-	success_message: $.text('Message de confirmation'),
-	fields: $.array('Champs', fieldSchema, { collapsible: true }),
+	title: $.text('Title'),
+	body: $.textarea('Text'),
+	form_name: $.text('Form definition'),
+	submit_label: $.text('Button'),
+	success_message: $.text('Confirmation message'),
+	fields: $.array('Fields', fieldSchema, { collapsible: true }),
 })
 
 defineBlock({
 	name: 'FormBlock',
-	label: 'Formulaire',
+	label: 'Form',
 	icon: 'assignment',
 	category: 'form',
-	description: 'Rend une définition de formulaire publique avec des champs Bagelink.',
+	description: 'Renders a public form definition with Bagelink fields.',
 	schema,
 	defaults: {},
 })
 
 const props = withDefaults(defineProps<Props>(), {
-	submit_label: 'Envoyer',
-	success_message: 'Merci. Nous vous répondrons.',
+	submit_label: 'Send',
+	success_message: 'Thank you. We will be in touch.',
 })
 
 // The agent writes fields as {name, label, type} or {name, title, kind}. Accept
@@ -106,7 +106,7 @@ async function submit() {
 		if (!response.ok) throw new Error('submit failed')
 		done.value = true
 	} catch {
-		error.value = "L'envoi a échoué. Réessayez."
+		error.value = 'Sending failed. Please try again.'
 	} finally {
 		sending.value = false
 	}

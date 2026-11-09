@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { defineBlock } from '@bagelink/blox'
 import { defineSchema, $ } from '@bagelink/vue'
+import { imageField, mediaUrl } from '@/media'
 
 interface Props {
 	heading?: string
 	lead?: string
-	image?: string
+	image?: unknown
 	image_alt?: string
 }
 
 const schema = defineSchema<Props>({
 	heading: $.text('H1'),
 	lead: $.textarea('Lead'),
-	image: $.text('Image URL'),
-	image_alt: $.text('Image alt'),
+	image: imageField(),
+	image_alt: $.text('Alt text'),
 })
 
 defineBlock({
@@ -36,8 +37,8 @@ const props = withDefaults(defineProps<Props>(), {})
 				<h1 class="txt-48 m_txt-36 line-height-11 m-0">{{ props.heading }}</h1>
 				<p v-if="props.lead" class="sans line-height-15 measure m-0 mt-1">{{ props.lead }}</p>
 			</div>
-			<div v-if="props.image" class="frame hero-frame">
-				<img :src="props.image" :alt="props.image_alt || props.heading || ''" />
+			<div v-if="mediaUrl(props.image)" class="frame hero-frame">
+				<img :src="mediaUrl(props.image)" :alt="props.image_alt || props.heading || ''" />
 			</div>
 		</div>
 	</section>

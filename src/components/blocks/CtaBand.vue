@@ -10,19 +10,19 @@ interface Props {
 }
 
 const schema = defineSchema<Props>({
-	title: $.text('Titre'),
-	body: $.textarea('Texte'),
-	cta_label: $.text('Bouton'),
-	cta_href: $.text('Lien'),
+	title: $.text('Title'),
+	body: $.textarea('Text'),
+	cta_label: $.text('Button'),
+	cta_href: $.text('Link'),
 })
 
 defineBlock({
 	name: 'CtaBand',
-	label: 'Bande d’appel',
+	label: 'Call to action',
 	icon: 'campaign',
 	category: 'content',
 	order: 60,
-	description: 'Une bande de clôture contrastée avec un bouton.',
+	description: 'A contrasting closing band with a button.',
 	schema,
 	defaults: {},
 })

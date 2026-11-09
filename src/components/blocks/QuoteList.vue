@@ -7,21 +7,21 @@ interface Props { kicker?: string; title?: string; items?: Quote[] }
 
 const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	items: $.array('Citations', defineSchema({
-		quote: $.textarea('Citation'),
-		name: $.text('Nom'),
-		detail: $.text('Détail'),
+	title: $.text('Title'),
+	items: $.array('Quotes', defineSchema({
+		quote: $.textarea('Quote'),
+		name: $.text('Name'),
+		detail: $.text('Detail'),
 	}), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'QuoteList',
-	label: 'Citations',
+	label: 'Quotes',
 	icon: 'format_quote',
 	category: 'content',
 	order: 50,
-	description: 'Citations sur cartes douces, avec le nom en dessous.',
+	description: 'Quotes on soft cards, with the name underneath.',
 	schema,
 	defaults: { items: [] },
 })

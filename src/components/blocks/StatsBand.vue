@@ -6,20 +6,20 @@ interface Stat { value?: string; label?: string }
 interface Props { items?: Stat[]; variant?: string }
 
 const schema = defineSchema<Props>({
-	variant: $.text('Variante (band|plain|posters)'),
-	items: $.array('Chiffres', defineSchema({
-		value: $.text('Valeur'),
-		label: $.text('Libellé'),
+	variant: $.text('Variant (band|plain|posters)'),
+	items: $.array('Stats', defineSchema({
+		value: $.text('Value'),
+		label: $.text('Label'),
 	}), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'StatsBand',
-	label: 'Bande de chiffres',
+	label: 'Stats',
 	icon: 'query_stats',
 	category: 'content',
 	order: 15,
-	description: 'Une rangée de chiffres clés sur une bande contrastée.',
+	description: 'A row of key numbers on a contrasting band.',
 	schema,
 	defaults: { items: [] },
 })

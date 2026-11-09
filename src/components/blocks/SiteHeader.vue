@@ -16,21 +16,21 @@ interface Theme { accent?: string; bg?: string; ink?: string; muted?: string; su
 interface HeaderContent extends Content { cta_label?: string; cta_href?: string }
 
 const schema = defineSchema({
-	brand: $.text('Marque'),
-	links: $.array('Liens', defineSchema({
-		label: $.text('Libellé'),
-		to: $.text('Lien'),
+	brand: $.text('Brand'),
+	links: $.array('Links', defineSchema({
+		label: $.text('Label'),
+		to: $.text('Link'),
 	}), { collapsible: true, allowReorder: true }),
-	cta_label: $.text('Bouton'),
-	cta_href: $.text('Lien du bouton'),
+	cta_label: $.text('Button'),
+	cta_href: $.text('Button link'),
 })
 
 defineBlock({
 	name: 'SiteHeader',
-	label: 'En-tête',
+	label: 'Header',
 	icon: 'menu',
 	category: 'layout',
-	description: 'Navigation du site, partagée par toutes les pages.',
+	description: 'Site navigation, shared by every page.',
 	schema,
 	defaults: { brand: '', links: [] },
 	global: true,

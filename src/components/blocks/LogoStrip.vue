@@ -10,17 +10,17 @@ interface Props {
 
 const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	items: $.array('Marques', defineSchema({ name: $.text('Nom') }), { collapsible: true, allowReorder: true }),
+	title: $.text('Title'),
+	items: $.array('Brands', defineSchema({ name: $.text('Name') }), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'LogoStrip',
-	label: 'Bande de logos',
+	label: 'Logo strip',
 	icon: 'grid_view',
 	category: 'content',
 	order: 17,
-	description: 'Une rangée de noms de clients ou de partenaires.',
+	description: 'A row of client or partner names.',
 	schema,
 	defaults: { items: [] },
 })

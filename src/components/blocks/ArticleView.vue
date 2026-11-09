@@ -2,13 +2,14 @@
 import { computed } from 'vue'
 import { defineBlock } from '@bagelink/blox'
 import { defineSchema, $ } from '@bagelink/vue'
+import { imageField, mediaUrl } from '@/media'
 
 interface Props {
 	title?: string
 	kicker?: string
 	dek?: string
 	body?: string
-	image?: string
+	image?: unknown
 	image_alt?: string
 	date?: string
 	author?: string
@@ -21,8 +22,8 @@ const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
 	dek: $.textarea('Deck'),
 	body: $.textarea('Body (markdown)'),
-	image: $.text('Image'),
-	image_alt: $.text('Image alt'),
+	image: imageField(),
+	image_alt: $.text('Alt text'),
 	date: $.text('Date'),
 	author: $.text('Author'),
 	category: $.text('Category'),
@@ -62,6 +63,13 @@ interface Block {
 
 const INLINE_RE = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g
 
+function safeHref(href: string): string {
+	const value = href.trim()
+	if (value.startsWith('/') || value.startsWith('#') || value.startsWith('mailto:')) return value
+	if (/^https?:\/\//i.test(value)) return value
+	return ''
+}
+
 function parseInline(raw: string): Seg[] {
 	const segs: Seg[] = []
 	let last = 0
@@ -74,7 +82,8 @@ function parseInline(raw: string): Seg[] {
 		else if (tok.startsWith('`')) segs.push({ text: tok.slice(1, -1), code: true })
 		else {
 			const lm = tok.match(/\[([^\]]+)\]\(([^)]+)\)/)
-			if (lm) segs.push({ text: lm[1], link: lm[2] })
+			const href = lm ? safeHref(lm[2]) : ''
+			if (lm && href) segs.push({ text: lm[1], link: href })
 			else segs.push({ text: tok })
 		}
 		last = m.index + tok.length
@@ -146,8 +155,8 @@ const blocks = computed<Block[]>(() => parseMarkdown(props.body || ''))
 				</p>
 			</header>
 
-			<figure v-if="props.image" class="frame m-0 mb-3" style="aspect-ratio: 21 / 9; border-radius: 18px">
-				<img :src="props.image" :alt="props.image_alt || props.title || ''" />
+			<figure v-if="mediaUrl(props.image)" class="frame m-0 mb-3" style="aspect-ratio: 21 / 9; border-radius: 18px">
+				<img :src="mediaUrl(props.image)" :alt="props.image_alt || props.title || ''" />
 			</figure>
 
 			<div class="measure mx-auto">

@@ -7,24 +7,24 @@ interface Props { kicker?: string; title?: string; body?: string; items?: Step[]
 
 const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	body: $.textarea('Texte'),
-	items: $.array('Étapes', defineSchema({
-		title: $.text('Titre'),
-		text: $.textarea('Texte'),
-		icon: $.text('Icône'),
+	title: $.text('Title'),
+	body: $.textarea('Text'),
+	items: $.array('Steps', defineSchema({
+		title: $.text('Title'),
+		text: $.textarea('Text'),
+		icon: $.text('Icon'),
 	}), { collapsible: true, allowReorder: true }),
-	cta_label: $.text('Bouton'),
-	cta_href: $.text('Lien du bouton'),
+	cta_label: $.text('Button'),
+	cta_href: $.text('Button link'),
 })
 
 defineBlock({
 	name: 'Steps',
-	label: 'Étapes',
+	label: 'Steps',
 	icon: 'format_list_numbered',
 	category: 'content',
 	order: 30,
-	description: 'Étapes numérotées avec icônes et une action optionnelle.',
+	description: 'Numbered steps with icons and an optional action.',
 	schema,
 	defaults: { items: [] },
 })

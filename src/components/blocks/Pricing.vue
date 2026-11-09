@@ -7,27 +7,27 @@ interface Props { kicker?: string; title?: string; body?: string; items?: Plan[]
 
 const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	body: $.textarea('Texte'),
-	items: $.array('Offres', defineSchema({
-		name: $.text('Nom'),
-		price: $.text('Prix'),
-		period: $.text('Période'),
-		text: $.textarea('Texte'),
-		features: $.array('Inclus', defineSchema({ text: $.text('Élément') })),
-		cta_label: $.text('Bouton'),
-		cta_href: $.text('Lien'),
-		featured: $.text('Mis en avant'),
+	title: $.text('Title'),
+	body: $.textarea('Text'),
+	items: $.array('Plans', defineSchema({
+		name: $.text('Name'),
+		price: $.text('Price'),
+		period: $.text('Period'),
+		text: $.textarea('Text'),
+		features: $.array('Included', defineSchema({ text: $.text('Item') })),
+		cta_label: $.text('Button'),
+		cta_href: $.text('Link'),
+		featured: $.text('Featured'),
 	}), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'Pricing',
-	label: 'Tarifs',
+	label: 'Pricing',
 	icon: 'sell',
 	category: 'content',
 	order: 23,
-	description: 'Cartes de tarification avec une offre mise en avant.',
+	description: 'Pricing cards with one plan featured.',
 	schema,
 	defaults: { items: [] },
 })

@@ -7,21 +7,21 @@ interface Props { kicker?: string; title?: string; items?: Item[] }
 
 const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	items: $.array('Étapes', defineSchema({
-		year: $.text('Période'),
-		title: $.text('Titre'),
-		text: $.textarea('Texte'),
+	title: $.text('Title'),
+	items: $.array('Milestones', defineSchema({
+		year: $.text('Period'),
+		title: $.text('Title'),
+		text: $.textarea('Text'),
 	}), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'Timeline',
-	label: 'Frise chronologique',
+	label: 'Timeline',
 	icon: 'timeline',
 	category: 'content',
 	order: 22,
-	description: 'Une frise verticale de jalons datés.',
+	description: 'A vertical timeline of dated milestones.',
 	schema,
 	defaults: { items: [] },
 })

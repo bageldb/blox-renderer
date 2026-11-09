@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineBlock } from '@bagelink/blox'
 import { Btn, defineSchema, $ } from '@bagelink/vue'
+import { imageField, mediaUrl } from '@/media'
 
 interface Props {
 	variant?: 'fullbleed' | 'split' | 'typographic'
@@ -11,21 +12,21 @@ interface Props {
 	cta_href?: string
 	cta2_label?: string
 	cta2_href?: string
-	image?: string
+	image?: unknown
 	image_alt?: string
 }
 
 const schema = defineSchema<Props>({
-	variant: $.text('Variante', { default: 'fullbleed' }),
+	variant: $.text('Variant', { default: 'fullbleed' }),
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	body: $.textarea('Texte'),
-	cta_label: $.text('Bouton'),
-	cta_href: $.text('Lien du bouton'),
-	cta2_label: $.text('Bouton secondaire'),
-	cta2_href: $.text('Lien secondaire'),
-	image: $.text('Image'),
-	image_alt: $.text('Texte alt'),
+	title: $.text('Title'),
+	body: $.textarea('Text'),
+	cta_label: $.text('Button'),
+	cta_href: $.text('Button link'),
+	cta2_label: $.text('Secondary button'),
+	cta2_href: $.text('Secondary link'),
+	image: imageField(),
+	image_alt: $.text('Alt text'),
 })
 
 defineBlock({
@@ -34,8 +35,7 @@ defineBlock({
 	icon: 'landscape',
 	category: 'hero',
 	order: 10,
-	description:
-		'Ouverture : pleine page, en deux colonnes, ou purement typographique.',
+	description: 'Opening: full bleed, two columns, or type only.',
 	schema,
 	defaults: { variant: 'fullbleed' },
 })
@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<Props>(), { variant: 'fullbleed' })
 	<section
 		v-if="props.variant === 'fullbleed'"
 		class="hero-overlay"
-		:style="props.image ? `background-image: linear-gradient(180deg, rgba(20,16,12,.2), rgba(20,16,12,.72)), url(${props.image})` : undefined"
+		:style="mediaUrl(props.image) ? `background-image: linear-gradient(180deg, rgba(20,16,12,.2), rgba(20,16,12,.72)), url(${mediaUrl(props.image)})` : undefined"
 	>
 		<div class="w-1100px mx-auto px-2 m_px-1 grid align-items-end" style="min-height: 82vh; padding-block: 5rem">
 			<div class="color-white keep-white grid gap-1-5 m_justify-items-start" style="max-width: 42rem">
@@ -75,8 +75,8 @@ const props = withDefaults(defineProps<Props>(), { variant: 'fullbleed' })
 					<Btn v-if="props.cta2_label" size="lg" outline :value="props.cta2_label" :href="props.cta2_href || '/'" />
 				</div>
 			</div>
-			<div v-if="props.image" class="frame" style="aspect-ratio: 4 / 5">
-				<img :src="props.image" :alt="props.image_alt || props.title || ''" />
+			<div v-if="mediaUrl(props.image)" class="frame" style="aspect-ratio: 4 / 5">
+				<img :src="mediaUrl(props.image)" :alt="props.image_alt || props.title || ''" />
 			</div>
 		</div>
 	</section>

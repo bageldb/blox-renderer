@@ -8,20 +8,20 @@ interface Column { title?: string; links?: Link[]; items?: any[] }
 interface Content { brand?: string; note?: string; columns?: Column[] }
 
 const schema = defineSchema({
-	brand: $.text('Marque'),
+	brand: $.text('Brand'),
 	note: $.textarea('Note'),
-	columns: $.array('Colonnes', defineSchema({
-		title: $.text('Titre'),
-		links: $.array('Liens', defineSchema({ label: $.text('Libellé'), to: $.text('Lien') })),
+	columns: $.array('Columns', defineSchema({
+		title: $.text('Title'),
+		links: $.array('Links', defineSchema({ label: $.text('Label'), to: $.text('Link') })),
 	}), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'SiteFooter',
-	label: 'Pied de page',
+	label: 'Footer',
 	icon: 'vertical_align_bottom',
 	category: 'layout',
-	description: 'Pied de page multi-colonnes, partagé par toutes les pages.',
+	description: 'Multi-column footer, shared by every page.',
 	schema,
 	defaults: { brand: '', note: '', columns: [] },
 	global: true,

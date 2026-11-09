@@ -7,25 +7,25 @@ interface Props { kicker?: string; title?: string; body?: string; columns?: stri
 
 const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	body: $.textarea('Texte'),
-	columns: $.text('Colonnes (3|4)'),
-	items: $.array('Tuiles', defineSchema({
-		title: $.text('Titre'),
-		text: $.textarea('Texte'),
-		icon: $.text('Icône'),
-		tone: $.text('Ton'),
-		href: $.text('Lien'),
+	title: $.text('Title'),
+	body: $.textarea('Text'),
+	columns: $.select('Columns', ['3', '4'], { default: '3' }),
+	items: $.array('Tiles', defineSchema({
+		title: $.text('Title'),
+		text: $.textarea('Text'),
+		icon: $.text('Icon'),
+		tone: $.text('Tone'),
+		href: $.text('Link'),
 	}), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'Tiles',
-	label: 'Mosaïque',
+	label: 'Tiles',
 	icon: 'grid_view',
 	category: 'content',
 	order: 22,
-	description: 'Tuiles produit colorées, chacune avec son ton.',
+	description: 'Colored product tiles, each with its own tone.',
 	schema,
 	defaults: { columns: '3', items: [] },
 })

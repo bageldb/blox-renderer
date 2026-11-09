@@ -1,30 +1,31 @@
 <script setup lang="ts">
 import { defineBlock } from '@bagelink/blox'
 import { defineSchema, $ } from '@bagelink/vue'
+import { imageField, mediaUrl } from '@/media'
 
-interface Card { title?: string; text?: string; body?: string; image?: string; meta?: string; href?: string }
+interface Card { title?: string; text?: string; body?: string; image?: unknown; meta?: string; href?: string }
 interface Props { kicker?: string; title?: string; body?: string; items?: Card[] }
 
 const schema = defineSchema<Props>({
 	kicker: $.text('Kicker'),
-	title: $.text('Titre'),
-	body: $.textarea('Texte'),
-	items: $.array('Cartes', defineSchema({
-		title: $.text('Titre'),
-		text: $.textarea('Texte'),
-		image: $.text('Image'),
-		meta: $.text('Méta'),
-		href: $.text('Lien'),
+	title: $.text('Title'),
+	body: $.textarea('Text'),
+	items: $.array('Cards', defineSchema({
+		title: $.text('Title'),
+		text: $.textarea('Text'),
+		image: imageField(),
+		meta: $.text('Meta'),
+		href: $.text('Link'),
 	}), { collapsible: true, allowReorder: true }),
 })
 
 defineBlock({
 	name: 'CardGrid',
-	label: 'Grille de cartes',
+	label: 'Card grid',
 	icon: 'dashboard',
 	category: 'content',
 	order: 40,
-	description: 'Cartes image liées, avec un léger soulèvement au survol.',
+	description: 'Linked image cards that lift slightly on hover.',
 	schema,
 	defaults: { items: [] },
 })
@@ -43,8 +44,8 @@ const desc = (item: Card) => item.text ?? item.body ?? ''
 			<ul class="bare grid grid-wrap-4 m_grid-wrap-2 gap-2 mt-3">
 				<li v-for="(item, i) in props.items" :key="item.title || i">
 					<a class="card-link" :href="item.href || '#'">
-						<div v-if="item.image" class="frame">
-							<img :src="item.image" :alt="item.title || ''" />
+						<div v-if="mediaUrl(item.image)" class="frame">
+							<img :src="mediaUrl(item.image)" :alt="item.title || ''" />
 						</div>
 						<p v-if="item.meta" class="txt12 quiet m-0 mt-075">{{ item.meta }}</p>
 						<h3 class="txt-20 m-0 mt-025">{{ item.title }}</h3>
