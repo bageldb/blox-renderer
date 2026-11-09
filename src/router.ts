@@ -1,5 +1,6 @@
 import { createRouter as _createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 import { CmsPageView } from '@bagelink/blox'
+import DesignerPreview from '@/components/DesignerPreview.vue'
 import Layout from '@/components/Layout.vue'
 
 export function createRouter(mode: 'web' | 'memory' = 'web', _initialUrl?: string) {
@@ -10,6 +11,15 @@ export function createRouter(mode: 'web' | 'memory' = 'web', _initialUrl?: strin
 	const router = _createRouter({
 		history,
 		routes: [
+			{
+				path: '/_blox_preview',
+				name: 'blox:preview',
+				component: DesignerPreview,
+				beforeEnter: () => {
+					if (typeof window === 'undefined' || window.self !== window.top) return true
+					return { path: '/', replace: true }
+				},
+			},
 			{
 				path: '/',
 				name: 'layout',
