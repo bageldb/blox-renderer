@@ -1,7 +1,9 @@
 /**
  * Client entry — dev + hydration after SSG.
  */
+import { ref } from 'vue'
 import { createBloxApp } from '@bagelink/blox'
+import { readProvidedTheme, SITE_THEME_KEY } from '@/theme'
 import { BagelVue, RouterWrapper } from '@bagelink/vue'
 
 import '@bagelink/vue/styles/core.css'
@@ -24,4 +26,7 @@ createBloxApp({
 	apiBaseURL: import.meta.env.VITE_BLOX_API_URL ?? '/api',
 	plugins: [[BagelVue, {}]],
 	globalComponents: { RouterWrapper },
+	setup: (app) => {
+		app.provide(SITE_THEME_KEY, ref(readProvidedTheme(app)))
+	},
 })

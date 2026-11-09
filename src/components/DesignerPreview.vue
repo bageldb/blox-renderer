@@ -7,6 +7,7 @@ import {
 	useLocale,
 } from '@bagelink/blox'
 import { nextTick, onMounted, onUnmounted, provide, ref } from 'vue'
+import SiteThemeStyle from '@/components/SiteThemeStyle.vue'
 
 interface BlockMeta {
 	name?: string
@@ -175,6 +176,7 @@ onUnmounted(() => {
 
 <template>
 	<div class="blox-preview-root">
+		<SiteThemeStyle />
 		<div class="blox-preview-canvas">
 			<template v-for="item in rendered()" :key="item.index ?? item.block.type">
 				<div

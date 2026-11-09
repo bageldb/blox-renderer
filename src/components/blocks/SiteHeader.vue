@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { defineBlock, useGlobalBlock } from '@bagelink/blox'
 import { Btn, Icon, defineSchema, $ } from '@bagelink/vue'
 
@@ -12,7 +12,6 @@ function normalizeLink(l: any): Link {
 	return { label: l.label ?? l.title ?? '', to: l.to ?? l.href ?? '#' }
 }
 const links = computed(() => (data.value?.links ?? []).map(normalizeLink).filter((l) => l.label))
-interface Theme { accent?: string; bg?: string; ink?: string; muted?: string; surface?: string; surface_ink?: string; font_display?: string; font_body?: string; radius?: string; gradient?: string; highlight?: string; btn?: string; btn_ink?: string; header?: string }
 interface HeaderContent extends Content { cta_label?: string; cta_href?: string }
 
 const schema = defineSchema({
@@ -41,7 +40,6 @@ const fallback: Content = {
 	links: [],
 }
 const { data } = useGlobalBlock<HeaderContent>('SiteHeader')
-const { data: themeData } = useGlobalBlock<Theme>('SiteTheme')
 const open = ref(false)
 const scrolled = ref(false)
 let onScroll: (() => void) | null = null
@@ -51,36 +49,9 @@ onMounted(() => {
 	window.addEventListener('scroll', onScroll, { passive: true })
 })
 onUnmounted(() => { if (onScroll) window.removeEventListener('scroll', onScroll) })
-
-// Emit the site theme as CSS variables on :root. This runs only when the page
-// actually includes the header block.
-const themeCss = computed(() => {
-	const t = themeData.value || {}
-	const vars: Record<string, string> = {
-		'--bgl-primary': t.accent || '#d95f2b',
-		'--bgl-bg': t.bg || '#161310',
-		'--bgl-font-color': t.ink || '#f3ece2',
-		'--bgl-muted': t.muted || '#a89c8e',
-		'--bgl-font-display': t.font_display || "'Fraunces', Georgia, serif",
-		'--bgl-font': t.font_body || "'Hanken Grotesk', system-ui, sans-serif",
-		'--bgl-surface': t.surface || '#201a16',
-		'--bgl-surface-ink': t.surface_ink || '#f4ede2',
-		'--bgl-card-border-radius': t.radius || '20px',
-		'--bgl-btn-border-radius': t.radius || '20px',
-		'--bgl-input-border-radius': t.radius || '12px',
-		'--bgl-btn-bg': t.btn || t.accent || '#1c1917',
-		'--bgl-btn-color': t.btn_ink || '#ffffff',
-		'--bgl-highlight': t.highlight || t.accent || '#d95f2b',
-		'--bgl-gradient': t.gradient || 'none',
-	}
-	return ':root{' + Object.entries(vars).map(([k, v]) => `${k}:${v};`).join('') + '}'
-})
-
-const ThemeStyle = () => h('style', themeCss.value)
 </script>
 
 <template>
-	<ThemeStyle />
 	<div :class="['nav-sticky', scrolled ? 'nav-scrolled' : '']">
 		<header>
 			<div class="w-1100px mx-auto px-2 m_px-1 h-60px flex align-items-center space-between gap-2">

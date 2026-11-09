@@ -179,9 +179,11 @@ a.bgl_flatPill {
 /* Bento */
 .bento-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
 }
+.bento-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.bento-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.bento-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .bento-cell {
   grid-column: span 1;
 }
@@ -192,8 +194,10 @@ a.bgl_flatPill {
   grid-row: span 2;
 }
 @media (max-width: 910px) {
-  .bento-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .bento-cols-2,
+  .bento-cols-3,
+  .bento-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .bento-wide,
   .bento-tall {
