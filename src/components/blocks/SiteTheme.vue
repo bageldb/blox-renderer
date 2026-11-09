@@ -33,7 +33,10 @@ const schema = defineSchema<Props>({
 	highlight: $.text('Highlight'),
 	btn: $.text('Button'),
 	btn_ink: $.text('Button text'),
-	header: $.text('Header (overlay|solid)'),
+	header: $.select('Header', [
+		{ label: 'Overlay', value: 'overlay' },
+		{ label: 'Solid', value: 'solid' },
+	], { default: 'solid', display: 'btn' }),
 })
 
 defineBlock({

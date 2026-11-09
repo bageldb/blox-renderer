@@ -17,7 +17,10 @@ const schema = defineSchema<Props>({
 		features: $.array('Included', defineSchema({ text: $.text('Item') })),
 		cta_label: $.text('Button'),
 		cta_href: $.text('Link'),
-		featured: $.text('Featured'),
+		featured: $.select('Featured', [
+			{ label: 'No', value: 'no' },
+			{ label: 'Yes', value: 'yes' },
+		], { default: 'no', display: 'btn' }),
 	}), { collapsible: true, allowReorder: true }),
 })
 

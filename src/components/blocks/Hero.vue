@@ -17,7 +17,11 @@ interface Props {
 }
 
 const schema = defineSchema<Props>({
-	variant: $.text('Variant', { default: 'fullbleed' }),
+	variant: $.select('Variant', [
+		{ label: 'Full bleed', value: 'fullbleed' },
+		{ label: 'Split', value: 'split' },
+		{ label: 'Type', value: 'typographic' },
+	], { default: 'fullbleed', display: 'btn' }),
 	kicker: $.text('Kicker'),
 	title: $.text('Title'),
 	body: $.textarea('Text'),

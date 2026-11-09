@@ -13,8 +13,18 @@ const schema = defineSchema<Props>({
 	items: $.array('Tiles', defineSchema({
 		title: $.text('Title'),
 		text: $.textarea('Text'),
-		icon: $.text('Icon'),
-		tone: $.text('Tone'),
+		icon: $.icon('Icon'),
+		tone: $.select('Tone', [
+			{ label: 'Paper', value: 'paper' },
+			{ label: 'Ink', value: 'ink' },
+			{ label: 'Violet', value: 'violet' },
+			{ label: 'Blue', value: 'blue' },
+			{ label: 'Cyan', value: 'cyan' },
+			{ label: 'Green', value: 'green' },
+			{ label: 'Yellow', value: 'yellow' },
+			{ label: 'Orange', value: 'orange' },
+			{ label: 'Pink', value: 'pink' },
+		], { default: 'paper' }),
 		href: $.text('Link'),
 	}), { collapsible: true, allowReorder: true }),
 })

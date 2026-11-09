@@ -14,7 +14,10 @@ const schema = defineSchema<Props>({
 		text: $.textarea('Text'),
 		image: imageField(),
 		image_alt: $.text('Alt text'),
-		flip: $.text('Flip'),
+		flip: $.select('Flip', [
+			{ label: 'No', value: 'no' },
+			{ label: 'Yes', value: 'yes' },
+		], { default: 'no', display: 'btn' }),
 		cta_label: $.text('Button'),
 		cta_href: $.text('Link'),
 	}), { collapsible: true, allowReorder: true }),

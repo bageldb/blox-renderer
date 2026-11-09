@@ -24,8 +24,18 @@ interface Props {
 }
 
 const schema = defineSchema<Props>({
-	treatment: $.text('Treatment (angle|mesh|poster|split|editorial)'),
-	tone: $.text('Text tone (light|ink)'),
+	treatment: $.select('Treatment', [
+		{ label: 'Angle', value: 'angle' },
+		{ label: 'Mesh', value: 'mesh' },
+		{ label: 'Poster', value: 'poster' },
+		{ label: 'Split', value: 'split' },
+		{ label: 'Editorial', value: 'editorial' },
+	], { default: 'angle', display: 'btn' }),
+	tone: $.select('Text tone', [
+		{ label: 'Auto', value: 'auto' },
+		{ label: 'Light', value: 'light' },
+		{ label: 'Ink', value: 'ink' },
+	], { default: 'auto', display: 'btn' }),
 	kicker: $.text('Kicker'),
 	title: $.text('Title'),
 	body: $.textarea('Text'),
@@ -35,7 +45,11 @@ const schema = defineSchema<Props>({
 	cta2_href: $.text('Secondary link'),
 	image: imageField(),
 	image_alt: $.text('Alt text'),
-	visual: $.text('Visual (dashboard|image|none)'),
+	visual: $.select('Visual', [
+		{ label: 'None', value: 'none' },
+		{ label: 'Image', value: 'image' },
+		{ label: 'Dashboard', value: 'dashboard' },
+	], { default: 'none', display: 'btn' }),
 	chips: $.array('Chips', defineSchema({ text: $.text('Text') }), { collapsible: true, allowReorder: true }),
 	metrics: $.array('Metrics', defineSchema({
 		label: $.text('Label'),

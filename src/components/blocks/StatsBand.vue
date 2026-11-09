@@ -6,7 +6,11 @@ interface Stat { value?: string; label?: string }
 interface Props { items?: Stat[]; variant?: string }
 
 const schema = defineSchema<Props>({
-	variant: $.text('Variant (band|plain|posters)'),
+	variant: $.select('Variant', [
+		{ label: 'Band', value: 'band' },
+		{ label: 'Plain', value: 'plain' },
+		{ label: 'Posters', value: 'posters' },
+	], { default: 'band', display: 'btn' }),
 	items: $.array('Stats', defineSchema({
 		value: $.text('Value'),
 		label: $.text('Label'),

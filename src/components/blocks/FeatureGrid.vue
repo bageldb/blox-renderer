@@ -14,7 +14,7 @@ const schema = defineSchema<Props>({
 	items: $.array('Points', defineSchema({
 		title: $.text('Title'),
 		text: $.textarea('Text'),
-		icon: $.text('Icon'),
+		icon: $.icon('Icon'),
 	}), { collapsible: true, allowReorder: true }),
 })
 

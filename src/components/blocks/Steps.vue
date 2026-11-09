@@ -12,7 +12,7 @@ const schema = defineSchema<Props>({
 	items: $.array('Steps', defineSchema({
 		title: $.text('Title'),
 		text: $.textarea('Text'),
-		icon: $.text('Icon'),
+		icon: $.icon('Icon'),
 	}), { collapsible: true, allowReorder: true }),
 	cta_label: $.text('Button'),
 	cta_href: $.text('Button link'),

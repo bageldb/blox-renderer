@@ -24,8 +24,18 @@ interface Props {
 const fieldSchema = defineSchema({
 	name: $.text('Field'),
 	title: $.text('Label'),
-	kind: $.text('Type'),
-	required: $.text('Required'),
+	kind: $.select('Type', [
+		{ label: 'Text', value: 'text' },
+		{ label: 'Long text', value: 'textarea' },
+		{ label: 'Email', value: 'email' },
+		{ label: 'Phone', value: 'phone' },
+		{ label: 'Checkbox', value: 'checkbox' },
+		{ label: 'Choice', value: 'choice' },
+	], { default: 'text' }),
+	required: $.select('Required', [
+		{ label: 'No', value: 'no' },
+		{ label: 'Yes', value: 'yes' },
+	], { default: 'no', display: 'btn' }),
 	options: $.array('Options', defineSchema({
 		label: $.text('Label'),
 		value: $.text('Value'),
@@ -64,7 +74,7 @@ const props = withDefaults(defineProps<Props>(), {
 function normalizeField(raw: any): Field {
 	const kindRaw = (raw.kind ?? raw.type ?? 'text').toLowerCase()
 	const hasOptions = Array.isArray(raw.options) && raw.options.length > 0
-	const kind: Field['kind'] = hasOptions
+	const kind: Field['kind'] = hasOptions || kindRaw === 'choice' || kindRaw === 'select'
 		? 'choice'
 		: kindRaw === 'checkbox'
 			? 'checkbox'
@@ -79,7 +89,7 @@ function normalizeField(raw: any): Field {
 		name: raw.name,
 		title: raw.title ?? raw.label ?? raw.name,
 		kind,
-		required: Boolean(raw.required),
+		required: raw.required === true || ['true', 'yes', 'oui', '1'].includes(String(raw.required ?? '').toLowerCase()),
 		options: (raw.options ?? []).map((o: any) => ({
 			label: o.label ?? o.title ?? String(o.value ?? o),
 			value: String(o.value ?? o),
