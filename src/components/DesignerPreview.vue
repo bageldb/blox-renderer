@@ -84,6 +84,16 @@ function rendered() {
 	return laidOut.map(block => ({ block, index: indexOf.get(block) ?? null }))
 }
 
+function readyPayload() {
+	return {
+		type: 'BLOX_READY' as const,
+		registry: Object.fromEntries(Object.entries(registry).map(([key, def]) => [key, def.schema])),
+		chrome: layout
+			? { nav: layout.navType ?? 'TopNav', footer: layout.footerType ?? 'Footer' }
+			: undefined,
+	}
+}
+
 function onMessage(event: MessageEvent) {
 	const msg = event.data
 	if (!msg || typeof msg !== 'object') return
@@ -124,6 +134,16 @@ function onMessage(event: MessageEvent) {
 	}
 }
 
+function selectBlock(index: number | null) {
+	if (index === null) return
+	sendToEditor({ type: 'BLOX_BLOCK_CLICK', index })
+}
+
+function hoverBlock(index: number | null) {
+	localHovered.value = index
+	sendToEditor({ type: 'BLOX_BLOCK_HOVER', index })
+}
+
 function blockNavigation(event: MouseEvent) {
 	const anchor = (event.target as HTMLElement | null)?.closest('a')
 	if (anchor && (anchor.getAttribute('href') || anchor.hasAttribute('target'))) event.preventDefault()
@@ -145,10 +165,7 @@ onMounted(() => {
 	const timer = window.setInterval(() => {
 		if (attempts >= 20) return stop()
 		attempts += 1
-		sendToEditor({
-			type: 'BLOX_READY',
-			registry: Object.fromEntries(Object.entries(registry).map(([key, def]) => [key, def.schema])),
-		})
+		sendToEditor(readyPayload())
 	}, 500)
 	function stop() {
 		window.clearInterval(timer)
@@ -158,10 +175,7 @@ onMounted(() => {
 		if (event.data?.type === 'BLOX_INIT') stop()
 	}
 	window.addEventListener('message', onInit)
-	sendToEditor({
-		type: 'BLOX_READY',
-		registry: Object.fromEntries(Object.entries(registry).map(([key, def]) => [key, def.schema])),
-	})
+	sendToEditor(readyPayload())
 	stopReady = stop
 })
 
@@ -176,23 +190,19 @@ onUnmounted(() => {
 	<div class="blox-preview-root">
 		<div class="blox-preview-canvas">
 			<template v-for="item in rendered()" :key="item.index ?? item.block.type">
-				<component
-					:is="registry[item.block.type].component"
-					v-if="item.index === null && registry[item.block.type]"
-					v-bind="resolveBlockProps(item.block, registry[item.block.type].schema.defaults as Record<string, unknown> | undefined, contexts)"
-				/>
 				<div
-					v-else-if="registry[item.block.type]"
+					v-if="registry[item.block.type]"
 					class="blox-preview-block"
+					:class="{ 'is-nav': item.block.type === layout?.navType }"
 					:data-blox-index="item.index"
 					:style="{
 						'--blox-rgb': globalBlockTypes.includes(item.block.type) ? GLOBAL.rgb : REGULAR.rgb,
 						'--blox-solid': globalBlockTypes.includes(item.block.type) ? GLOBAL.solid : REGULAR.solid,
 					}"
-					@click="sendToEditor({ type: 'BLOX_BLOCK_CLICK', index: item.index! })"
-					@contextmenu.prevent="sendToEditor({ type: 'BLOX_BLOCK_CONTEXTMENU', index: item.index!, x: $event.clientX, y: $event.clientY })"
-					@mouseenter="localHovered = item.index; sendToEditor({ type: 'BLOX_BLOCK_HOVER', index: item.index })"
-					@mouseleave="localHovered = null; sendToEditor({ type: 'BLOX_BLOCK_HOVER', index: null })"
+					@click="selectBlock(item.index)"
+					@contextmenu.prevent="item.index !== null && sendToEditor({ type: 'BLOX_BLOCK_CONTEXTMENU', index: item.index, x: $event.clientX, y: $event.clientY })"
+					@mouseenter="hoverBlock(item.index)"
+					@mouseleave="hoverBlock(null)"
 				>
 					<component
 						:is="registry[item.block.type].component"
@@ -201,12 +211,12 @@ onUnmounted(() => {
 					<div
 						class="blox-preview-overlay"
 						:class="{
-							'is-selected': selectedIndex === item.index,
-							'is-hovered': (hoveredIndex === item.index || localHovered === item.index) && selectedIndex !== item.index,
+							'is-selected': item.index !== null && selectedIndex === item.index,
+							'is-hovered': item.index !== null && (hoveredIndex === item.index || localHovered === item.index) && selectedIndex !== item.index,
 						}"
 					/>
 					<div
-						v-if="selectedIndex === item.index || hoveredIndex === item.index || localHovered === item.index"
+						v-if="item.index !== null && (selectedIndex === item.index || hoveredIndex === item.index || localHovered === item.index)"
 						class="blox-preview-label"
 						:class="{ 'is-selected': selectedIndex === item.index }"
 					>
@@ -221,7 +231,10 @@ onUnmounted(() => {
 <style>
 * { box-sizing: border-box; }
 body { margin: 0; }
-.blox-preview-block { position: relative; cursor: pointer; }
+.blox-preview-block { position: relative; z-index: 0; cursor: pointer; }
+.blox-preview-block.is-nav { z-index: 30; }
+.blox-preview-block.is-nav .blox-preview-overlay,
+.blox-preview-block.is-nav .blox-preview-label { height: 60px; bottom: auto; }
 .blox-preview-overlay {
 	position: absolute;
 	inset: 0;
