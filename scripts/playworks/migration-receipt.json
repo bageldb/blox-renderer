@@ -1,0 +1,69 @@
+{
+  "format": "playworks-public-v1",
+  "origin": "https://app.bagel.to",
+  "website_id": "23035e81-3ff4-49af-9fcf-509dc735ab44",
+  "store": "playworks",
+  "exported_at": "2026-11-10T01:23:00.804Z",
+  "collections": {
+    "games": {
+      "created": 0,
+      "skipped": 184,
+      "total": 184
+    },
+    "news": {
+      "created": 82,
+      "skipped": 27,
+      "total": 109
+    },
+    "newsletter": {
+      "created": 30,
+      "skipped": 0,
+      "total": 30
+    },
+    "team": {
+      "created": 79,
+      "skipped": 0,
+      "total": 79
+    },
+    "creators": {
+      "created": 100,
+      "skipped": 0,
+      "total": 100
+    },
+    "careers": {
+      "created": 2,
+      "skipped": 0,
+      "total": 2
+    },
+    "partners": {
+      "created": 38,
+      "skipped": 0,
+      "total": 38
+    },
+    "legal": {
+      "created": 8,
+      "skipped": 0,
+      "total": 8
+    },
+    "tvChannels": {
+      "created": 3,
+      "skipped": 0,
+      "total": 3
+    },
+    "videoPages": {
+      "created": 1,
+      "skipped": 0,
+      "total": 1
+    },
+    "topGraphicsAnimation": {
+      "created": 1,
+      "skipped": 0,
+      "total": 1
+    },
+    "faq": {
+      "created": 10,
+      "skipped": 0,
+      "total": 10
+    }
+  }
+}
