@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { defineBlock } from '@bagelink/blox'
 import { Btn, Icon, defineSchema, $ } from '@bagelink/vue'
-import { imageField, mediaUrl } from '@/media'
+import { imageField, mediaUrl } from '../../media'
 
 interface Metric { label?: string; value?: string; delta?: string }
 interface Chip { text?: string }

@@ -1,7 +1,7 @@
 import { createRouter as _createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 import { CmsPageView } from '@bagelink/blox'
-import DesignerPreview from '@/components/DesignerPreview.vue'
-import Layout from '@/components/Layout.vue'
+import DesignerPreview from './components/DesignerPreview.vue'
+import Layout from './components/Layout.vue'
 
 export function createRouter(mode: 'web' | 'memory' = 'web', _initialUrl?: string) {
 	const history = mode === 'memory'
@@ -37,5 +37,3 @@ export function createRouter(mode: 'web' | 'memory' = 'web', _initialUrl?: strin
 
 	return router
 }
-
-export default createRouter()

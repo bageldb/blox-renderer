@@ -2,6 +2,21 @@
   "name": "@bageldb/blox-renderer",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./blocks": "./src/blocks.ts",
+    "./App.vue": "./src/App.vue",
+    "./theme": "./src/theme.ts",
+    "./media": "./src/media.ts",
+    "./router": "./src/router.ts",
+    "./setup": "./src/setup.ts",
+    "./utils/sanitize": "./src/utils/sanitize.ts",
+    "./styles/main.css": "./src/styles/main.css",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && bun run build:prerender && bun run ssg && bun run assert:output",

@@ -6,8 +6,9 @@ import {
 	sendToEditor,
 	useLocale,
 } from '@bagelink/blox'
-import { nextTick, onMounted, onUnmounted, provide, ref } from 'vue'
-import SiteThemeStyle from '@/components/SiteThemeStyle.vue'
+import { inject, nextTick, onMounted, onUnmounted, provide, ref } from 'vue'
+import SiteThemeStyle from './SiteThemeStyle.vue'
+import { BLOCK_MODULES_KEY, sharedBlockModules } from '../blocks'
 
 interface BlockMeta {
 	name?: string
@@ -24,7 +25,8 @@ interface BlockMeta {
 	global?: boolean
 }
 
-const modules = import.meta.glob('./blocks/*.vue', { eager: true }) as Record<string, Record<string, unknown>>
+const modules = inject(BLOCK_MODULES_KEY, sharedBlockModules)
+provide(BLOCK_MODULES_KEY, modules)
 
 function buildRegistry() {
 	const registry: Record<string, { component: unknown, schema: Record<string, unknown> }> = {}

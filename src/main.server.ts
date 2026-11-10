@@ -2,9 +2,9 @@
  * Prerender entry — used by blox-ssg at build time only.
  */
 import process from 'node:process'
-import { ref } from 'vue'
 import { createBloxSSREntry } from '@bagelink/blox/ssg'
-import { readProvidedTheme, SITE_THEME_KEY } from '@/theme'
+import { setupSiteApp } from './setup'
+import type { BlockModules } from './blocks'
 import { BagelVue, RouterWrapper } from '@bagelink/vue'
 import App from './App.vue'
 import { createRouter } from './router'
@@ -15,7 +15,7 @@ import '@/styles/main.css'
 import '@/styles/playworks.css'
 import '@/styles/playworks-inner.css'
 
-const blocks = import.meta.glob('./components/blocks/*.vue', { eager: true })
+const blocks = import.meta.glob('./components/blocks/*.vue', { eager: true }) as BlockModules
 
 const websiteName = process.env.BLOX_WEBSITE_NAME ?? process.env.WEBSITE_NAME ?? 'blox'
 
@@ -31,6 +31,6 @@ export const { render, prefetchResolve, configureBuildData } = createBloxSSREntr
 	plugins: [[BagelVue, {}]],
 	globalComponents: { RouterWrapper },
 	setup: (app) => {
-		app.provide(SITE_THEME_KEY, ref(readProvidedTheme(app)))
+		setupSiteApp(app, blocks)
 	},
 })

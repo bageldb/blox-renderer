@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { defineBlock } from '@bagelink/blox'
 import { defineSchema, $ } from '@bagelink/vue'
-import { imageField, mediaUrl } from '@/media'
+import { imageField, mediaUrl } from '../../media'
 
 interface Props {
 	title?: string

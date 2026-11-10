@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineBlock } from '@bagelink/blox'
 import { defineSchema, $ } from '@bagelink/vue'
-import { imageField, mediaUrl } from '@/media'
+import { imageField, mediaUrl } from '../../media'
 
 interface Card { title?: string; text?: string; body?: string; image?: unknown; meta?: string; href?: string }
 interface Props { kicker?: string; title?: string; body?: string; items?: Card[] }

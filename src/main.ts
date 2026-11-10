@@ -1,9 +1,9 @@
 /**
  * Client entry — dev + hydration after SSG.
  */
-import { ref } from 'vue'
 import { createBloxApp } from '@bagelink/blox'
-import { readProvidedTheme, SITE_THEME_KEY } from '@/theme'
+import { setupSiteApp } from './setup'
+import type { BlockModules } from './blocks'
 import { BagelVue, RouterWrapper } from '@bagelink/vue'
 
 import '@bagelink/vue/styles/core.css'
@@ -13,15 +13,15 @@ import '@/styles/playworks.css'
 import '@/styles/playworks-inner.css'
 
 import App from './App.vue'
-import router from './router'
+import { createRouter } from './router'
 
-const blocks = import.meta.glob('./components/blocks/*.vue', { eager: true })
+const blocks = import.meta.glob('./components/blocks/*.vue', { eager: true }) as BlockModules
 
 const websiteName = import.meta.env.VITE_BLOX_WEBSITE_NAME ?? 'blox'
 
 createBloxApp({
 	rootComponent: App,
-	router,
+	router: createRouter(),
 	modules: blocks as Record<string, any>,
 	websiteName,
 	store: websiteName,
@@ -29,6 +29,6 @@ createBloxApp({
 	plugins: [[BagelVue, {}]],
 	globalComponents: { RouterWrapper },
 	setup: (app) => {
-		app.provide(SITE_THEME_KEY, ref(readProvidedTheme(app)))
+		setupSiteApp(app, blocks)
 	},
 })

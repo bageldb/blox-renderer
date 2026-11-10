@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineBlock } from '@bagelink/blox'
 import { Btn, defineSchema, $ } from '@bagelink/vue'
-import { imageField, mediaUrl } from '@/media'
+import { imageField, mediaUrl } from '../../media'
 
 interface Props {
 	variant?: 'fullbleed' | 'split' | 'typographic'

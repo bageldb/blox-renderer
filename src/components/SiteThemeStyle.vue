@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, h, inject } from 'vue'
 import { readBloxHydration, useGlobalBlock } from '@bagelink/blox'
-import { SITE_THEME_KEY, themeCss, themeFromContexts, type SiteThemeProps } from '@/theme'
+import { SITE_THEME_KEY, themeCss, themeFromContexts, type SiteThemeProps } from '../theme'
 
 const { data } = useGlobalBlock<SiteThemeProps>('SiteTheme')
 const provided = inject(SITE_THEME_KEY, null)
