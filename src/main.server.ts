@@ -12,6 +12,7 @@ import { createRouter } from './router'
 import '@bagelink/vue/styles/core.css'
 import '@bagelink/blox/style.css'
 import '@/styles/main.css'
+import '@/styles/playworks.css'
 
 const blocks = import.meta.glob('./components/blocks/*.vue', { eager: true })
 

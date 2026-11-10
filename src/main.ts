@@ -9,6 +9,7 @@ import { BagelVue, RouterWrapper } from '@bagelink/vue'
 import '@bagelink/vue/styles/core.css'
 import '@bagelink/blox/style.css'
 import '@/styles/main.css'
+import '@/styles/playworks.css'
 
 import App from './App.vue'
 import router from './router'
