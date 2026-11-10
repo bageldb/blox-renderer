@@ -45,7 +45,11 @@ const emailHref = () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(props.email || '') ? `
 </template>
 
 <style scoped>
-.play-contact .ps-1 { padding-inline-start: 1rem; }
+.play-contact .ps-1 { padding-inline: 50px; }
+.play-contact .faq-page-box { min-height: 0; }
 .play-contact h1 { font-family: inherit; }
 .play-contact .cont p { white-space: pre-line; }
+@media (max-width: 767px) {
+  .play-contact .ps-1 { padding-inline: 20px; }
+}
 </style>
