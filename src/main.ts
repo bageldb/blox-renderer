@@ -10,6 +10,7 @@ import '@bagelink/vue/styles/core.css'
 import '@bagelink/blox/style.css'
 import '@/styles/main.css'
 import '@/styles/playworks.css'
+import '@/styles/playworks-inner.css'
 
 import App from './App.vue'
 import router from './router'

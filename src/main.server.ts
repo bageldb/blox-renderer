@@ -13,6 +13,7 @@ import '@bagelink/vue/styles/core.css'
 import '@bagelink/blox/style.css'
 import '@/styles/main.css'
 import '@/styles/playworks.css'
+import '@/styles/playworks-inner.css'
 
 const blocks = import.meta.glob('./components/blocks/*.vue', { eager: true })
 
