@@ -4,6 +4,7 @@ import { defineBlock } from '@bagelink/blox'
 import { $, Btn, SelectInput, TextInput, UploadInput, defineSchema } from '@bagelink/vue'
 
 interface Props {
+	embedded?: boolean
 	form_name?: string
 	title?: string
 	body?: string
@@ -125,7 +126,7 @@ async function submit() {
 </script>
 
 <template>
-	<section class="playworks play-form">
+	<section class="playworks play-form" :class="{ 'play-form-embedded': props.embedded }">
 		<h3 v-if="props.title" class="play-form-title">{{ props.title }}</h3>
 		<div class="faq-page-box sup">
 			<p class="txt20">{{ props.body ?? (contact ? 'For player support or technical issues with a Play.Works app or game, please use the form below and our Support team will respond as soon as possible.' : 'For any support questions or comments please fill out the below form') }}</p>
@@ -177,6 +178,8 @@ async function submit() {
 .playworks.play-form { max-width: 1080px; width: 90%; margin: 60px auto; }
 .playworks .play-form-title { font-size: 60px; line-height: 1.1; }
 .playworks .faq-page-box { background: #fef2df; border-radius: 30px; padding: 50px 50px 50px 300px; }
+.playworks.play-form-embedded { max-width: none; width: 100%; margin: 0; }
+.playworks.play-form-embedded .faq-page-box { padding: 50px; }
 .playworks .txt20 { font-size: 20px; font-weight: 600; line-height: 1.5; }
 .playworks .txt20.light { font-weight: 400; }
 .playworks .form-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
@@ -222,6 +225,7 @@ async function submit() {
 .playworks :deep(button:focus-visible) { outline: 2px solid #143a71; outline-offset: 3px; }
 @media (max-width: 767px) {
 	.playworks .faq-page-box { padding: 20px; }
+	.playworks.play-form-embedded .faq-page-box { padding: 20px; }
 	.playworks .form-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
 	.playworks .play-form-title { font-size: 40px; }
 }
